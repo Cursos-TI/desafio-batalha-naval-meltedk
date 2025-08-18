@@ -221,7 +221,7 @@ int main() {
 			tabuleiro[linha + 1][coluna - 1] = 3;
 		}
 	} else {
-		printf("Cordenadas inválidas para o navio diagonal primário: alguma parte do navio está para fora do limite do tabuleiro!\n");
+		printf("Cordenadas inválidas para o navio diagonal secundário: alguma parte do navio está para fora do limite do tabuleiro!\n");
 	}
 
 
