@@ -1,8 +1,8 @@
 #include <stdio.h>
 
 int main() {
-    //array de caracteres para cordenadas no grid
-	char linhas[10] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
+	//array de caracteres para cordenadas no grid
+	char colunas[10] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
 
 	//Declara e inicializa a matriz tabuleiro com valores padrão de 0 para todas as células
 	int tabuleiro[10][10];
@@ -12,13 +12,10 @@ int main() {
 		}
 	}
 
-	//Representação espacial de cada navio
-	int primeiroNavio[3] = {3, 3, 3};
-	int segundoNavio[3] = {3, 3, 3};
+	int linha, coluna; // Cordenadas de apoio
 
-	int linhaHorizontal, colunaHorizontal; // Cordenadas do navio horizontal
-	int linhaVertical, colunaVertical; // Cordenadas do navio vertical
-	char horChar, verChar; // Variável de apoio para transformar cordernada vertical de letra para número
+        char verChar; // Variável de apoio para transformar cordernada vertical de letra para número
+
 
 
 	// Imprimindo o tabuleiro vazio
@@ -26,13 +23,13 @@ int main() {
 	printf("   ");
 
 	for(int j = 0; j < 10; j++) {
-		printf("%c ", linhas[j]); // Imprime as letras das colunas
+		printf("%c ", colunas[j]); // Imprime as letras das colunas
 	}
 
 	printf("\n");
 
 	for(int i = 0; i < 10; i++) {
-		printf("%2d", i + 1);
+		printf("%2d", i + 1); // Imprime os números das linhas
 		for(int j = 0; j < 10; j++) {
 			printf(" %d", tabuleiro[i][j]);
 		}
@@ -42,39 +39,48 @@ int main() {
 	printf("\n");
 
 
+
 	// Definindo a posição do navio horizontal
 	printf("Digite a letra correspondente à coluna do primeiro barco (horizontal): ");
-	scanf(" %c", &horChar);
+	scanf(" %c", &verChar);
 	printf("Digite a linha do primeiro barco (horizontal): ");
-	scanf("%d", &linhaHorizontal);
+	scanf("%d", &linha);
 
-	if(horChar == 'A' || horChar == 'a')
-		colunaHorizontal = 1;
-	if(horChar == 'B' || horChar == 'b')
-		colunaHorizontal = 2;
-	if(horChar == 'C' || horChar == 'c')
-		colunaHorizontal = 3;
-	if(horChar == 'D' || horChar == 'd')
-		colunaHorizontal = 4;
-	if(horChar == 'E' || horChar == 'e')
-		colunaHorizontal = 5;
-	if(horChar == 'F' || horChar == 'f')
-		colunaHorizontal = 6;
-	if(horChar == 'G' || horChar == 'g')
-		colunaHorizontal = 7;
-	if(horChar == 'H' || horChar == 'h')
-		colunaHorizontal = 8;
-	if(horChar == 'I' || horChar == 'i')
-		colunaHorizontal = 9;
-	if(horChar == 'J' || horChar == 'j')
-		colunaHorizontal = 10;
+	if(verChar == 'A' || verChar == 'a')
+		coluna = 1;
+	if(verChar == 'B' || verChar == 'b')
+		coluna = 2;
+	if(verChar == 'C' || verChar == 'c')
+		coluna = 3;
+	if(verChar == 'D' || verChar == 'd')
+		coluna = 4;
+	if(verChar == 'E' || verChar == 'e')
+		coluna = 5;
+	if(verChar == 'F' || verChar == 'f')
+		coluna = 6;
+	if(verChar == 'G' || verChar == 'g')
+		coluna = 7;
+	if(verChar == 'H' || verChar == 'h')
+		coluna = 8;
+	if(verChar == 'I' || verChar == 'i')
+		coluna = 9;
+	if(verChar == 'J' || verChar == 'j')
+		coluna = 10;
 
-	if( (linhaHorizontal >= 1 && linhaHorizontal <= 10) && (colunaHorizontal >= 2 && colunaHorizontal <= 9) ) {
-		linhaHorizontal--;
-		colunaHorizontal--;
-		tabuleiro[linhaHorizontal][colunaHorizontal - 1] = 3;
-		tabuleiro[linhaHorizontal][colunaHorizontal] = 3; //Essa cordenada define o centro do navio
-		tabuleiro[linhaHorizontal][colunaHorizontal + 1] = 3;
+	// Validando de navio está nos limites do tabuleiro
+	if( (linha >= 1 && linha <= 10) && (coluna >= 2 && coluna <= 9) ) {
+		linha--;
+		coluna--;
+		//Verificando sobreposição
+		if(tabuleiro[linha][coluna - 1] == 3 ||
+		tabuleiro[linha][coluna] == 3 ||
+		tabuleiro[linha][coluna + 1] == 3) {
+			printf("Posição ocupada! Não foi possível posicionar o navio\n");
+		} else { // Inserindo o navio no tabuleiro
+			tabuleiro[linha][coluna - 1] = 3;
+			tabuleiro[linha][coluna] = 3; //Essa cordenada define o centro do navio
+			tabuleiro[linha][coluna + 1] = 3;
+		}
 	} else {
 		printf("Cordenadas inválidas para o navio horizontal: alguma parte do navio está para fora do limite do tabuleiro!\n");
 	}
@@ -84,77 +90,159 @@ int main() {
 	printf("Digite a letra correspondente à coluna do segundo barco (vertical): ");
 	scanf(" %c", &verChar);
 	printf("Digite a linha do segundo barco (vertical): ");
-	scanf("%d", &linhaVertical);
+	scanf("%d", &linha);
 
 	if(verChar == 'A' || verChar == 'a')
-		colunaVertical = 1;
+		coluna = 1;
 	if(verChar == 'B' || verChar == 'b')
-		colunaVertical = 2;
+		coluna = 2;
 	if(verChar == 'C' || verChar == 'c')
-		colunaVertical = 3;
+		coluna = 3;
 	if(verChar == 'D' || verChar == 'd')
-		colunaVertical = 4;
+		coluna = 4;
 	if(verChar == 'E' || verChar == 'e')
-		colunaVertical = 5;
+		coluna = 5;
 	if(verChar == 'F' || verChar == 'f')
-		colunaVertical = 6;
+		coluna = 6;
 	if(verChar == 'G' || verChar == 'g')
-		colunaVertical = 7;
+		coluna = 7;
 	if(verChar == 'H' || verChar == 'h')
-		colunaVertical = 8;
+		coluna = 8;
 	if(verChar == 'I' || verChar == 'i')
-		colunaVertical = 9;
+		coluna = 9;
 	if(verChar == 'J' || verChar == 'j')
-		colunaVertical = 10;
+		coluna = 10;
 
-	if( (linhaVertical >= 2 && linhaVertical <= 9) && (colunaVertical >= 1 && colunaVertical <= 10) ) {
-		linhaVertical--;
-		colunaVertical--;
-		tabuleiro[linhaVertical - 1][colunaVertical] = 3;
-		tabuleiro[linhaVertical][colunaVertical] = 3; //Essa cordenada define o centro do navio
-		tabuleiro[linhaVertical + 1][colunaVertical] = 3;
+	// Validando de navio está nos limites do tabuleiro
+	if( (linha >= 2 && linha <= 9) && (coluna >= 1 && coluna <= 10) ) {
+		linha--;
+		coluna--;
+		//Verificando sobreposição
+		if(tabuleiro[linha - 1][coluna] == 3 ||
+		tabuleiro[linha][coluna] == 3 ||
+		tabuleiro[linha + 1][coluna] == 3) {
+			printf("Posição ocupada! Não foi possível posicionar o navio\n");
+		} else { // Inserindo o navio no tabuleiro
+			tabuleiro[linha - 1][coluna] = 3;
+			tabuleiro[linha][coluna] = 3; //Essa cordenada define o centro do navio
+			tabuleiro[linha + 1][coluna] = 3;
+		}
 	} else {
 		printf("Cordenadas inválidas para o navio vertical: alguma parte do navio está para fora do limite do tabuleiro!\n");
 	}
 
 
-	//Verificando se os navios se sobrepõe
-	if(linhaHorizontal == linhaVertical && colunaHorizontal == colunaVertical) {
-		printf("Cordenadas inválidas: os navios se sobrepõem\n");
-	} else if(linhaHorizontal == linhaVertical && colunaHorizontal == colunaVertical - 1) {
-		printf("Cordenadas inválidas: os navios se sobrepõem\n");
-	} else if(linhaHorizontal == linhaVertical && colunaHorizontal - 1 == colunaVertical) {
-		printf("Cordenadas inválidas: os navios se sobrepõem\n");
-	} else if(linhaHorizontal == linhaVertical - 1 && colunaHorizontal - 1 == colunaVertical) {
-		printf("Cordenadas inválidas: os navios se sobrepõem\n");
-	} else if(linhaHorizontal == linhaVertical - 1 && colunaHorizontal == colunaVertical) {
-		printf("Cordenadas inválidas: os navios se sobrepõem\n");
-	} else if(linhaHorizontal == linhaVertical - 1 && colunaHorizontal == colunaVertical - 1) {
-		printf("Cordenadas inválidas: os navios se sobrepõem\n");
-	} else if(linhaHorizontal - 1 == linhaVertical && colunaHorizontal == colunaVertical - 1) {
-		printf("Cordenadas inválidas: os navios se sobrepõem\n");
-	} else if(linhaHorizontal - 1 == linhaVertical && colunaHorizontal == colunaVertical) {
-		printf("Cordenadas inválidas: os navios se sobrepõem\n");
-	} else if(linhaHorizontal - 1 == linhaVertical && colunaHorizontal - 1 == colunaVertical) {
-		printf("Cordenadas inválidas: os navios se sobrepõem\n");
+	// Definindo a posição do navio diagonal primário (\)
+	printf("Digite a letra correspondente à coluna do terceiro barco (diagonal primário \\): ");
+	scanf(" %c", &verChar);
+	printf("Digite a linha do terceiro barco (diagonal primário \\): ");
+	scanf("%d", &linha);
+
+	if(verChar == 'A' || verChar == 'a')
+		coluna = 1;
+	if(verChar == 'B' || verChar == 'b')
+		coluna = 2;
+	if(verChar == 'C' || verChar == 'c')
+		coluna = 3;
+	if(verChar == 'D' || verChar == 'd')
+		coluna = 4;
+	if(verChar == 'E' || verChar == 'e')
+		coluna = 5;
+	if(verChar == 'F' || verChar == 'f')
+		coluna = 6;
+	if(verChar == 'G' || verChar == 'g')
+		coluna = 7;
+	if(verChar == 'H' || verChar == 'h')
+		coluna = 8;
+	if(verChar == 'I' || verChar == 'i')
+		coluna = 9;
+	if(verChar == 'J' || verChar == 'j')
+		coluna = 10;
+
+	// Validando de navio está nos limites do tabuleiro
+	if( (linha >= 2 && linha <= 9) && (coluna >= 2 && coluna <= 9) ) {
+		linha--;
+		coluna--;
+		//Verificando sobreposição
+		if(tabuleiro[linha - 1][coluna - 1] == 3 ||
+		tabuleiro[linha][coluna] == 3 ||
+		tabuleiro[linha + 1][coluna + 1] == 3) {
+			printf("Posição ocupada! Não foi possível posicionar o navio\n");
+		} else { // Inserindo o navio no tabuleiro
+			tabuleiro[linha - 1][coluna - 1] = 3;
+			tabuleiro[linha][coluna] = 3; //Essa cordenada define o centro do navio
+			tabuleiro[linha + 1][coluna + 1] = 3;
+		}
 	} else {
-		// Exibindo o tabuleiro com os navios que foram cadastrados com exito
-		printf("\n TABULEIRO BATALHA NAVAL \n\n");
-		printf("   ");
+		printf("Cordenadas inválidas para o navio diagonal primário: alguma parte do navio está para fora do limite do tabuleiro!\n");
+	}
 
+
+
+	// Definindo a posição do navio diagonal secundário (/)
+	printf("Digite a letra correspondente à coluna do segundo barco (diagonal secundário /): ");
+	scanf(" %c", &verChar);
+	printf("Digite a linha do segundo barco (diagonal secundário /): ");
+	scanf("%d", &linha);
+
+	if(verChar == 'A' || verChar == 'a')
+		coluna = 1;
+	if(verChar == 'B' || verChar == 'b')
+		coluna = 2;
+	if(verChar == 'C' || verChar == 'c')
+		coluna = 3;
+	if(verChar == 'D' || verChar == 'd')
+		coluna = 4;
+	if(verChar == 'E' || verChar == 'e')
+		coluna = 5;
+	if(verChar == 'F' || verChar == 'f')
+		coluna = 6;
+	if(verChar == 'G' || verChar == 'g')
+		coluna = 7;
+	if(verChar == 'H' || verChar == 'h')
+		coluna = 8;
+	if(verChar == 'I' || verChar == 'i')
+		coluna = 9;
+	if(verChar == 'J' || verChar == 'j')
+		coluna = 10;
+
+	// Validando de navio está nos limites do tabuleiro
+	if( (linha >= 2 && linha <= 9) && (coluna >= 2 && coluna <= 9) ) {
+		linha--;
+		coluna--;
+		//Verificando sobreposição
+		if(tabuleiro[linha - 1][coluna + 1] == 3 ||
+		tabuleiro[linha][coluna] == 3 ||
+		tabuleiro[linha + 1][coluna - 1] == 3) {
+			printf("Posição ocupada! Não foi possível posicionar o navio\n");
+		} else { // Inserindo o navio no tabuleiro
+			tabuleiro[linha - 1][coluna + 1] = 3;
+			tabuleiro[linha][coluna] = 3; //Essa cordenada define o centro do navio
+			tabuleiro[linha + 1][coluna - 1] = 3;
+		}
+	} else {
+		printf("Cordenadas inválidas para o navio diagonal primário: alguma parte do navio está para fora do limite do tabuleiro!\n");
+	}
+
+
+
+
+	// Exibindo o tabuleiro com os navios que foram cadastrados com exito
+	printf("\n TABULEIRO BATALHA NAVAL \n\n");
+	printf("   ");
+
+	for(int j = 0; j < 10; j++) {
+		printf("%c ", colunas[j]); // Imprime as letras das colunas
+	}
+
+	printf("\n");
+
+	for(int i = 0; i < 10; i++) {
+		printf("%2d", i + 1); // Imprime os números das linhas
 		for(int j = 0; j < 10; j++) {
-			printf("%c ", linhas[j]); // Imprime as letras das colunas
+			printf(" %d", tabuleiro[i][j]);
 		}
-
 		printf("\n");
-
-		for(int i = 0; i < 10; i++) {
-			printf("%2d", i + 1);
-			for(int j = 0; j < 10; j++) {
-				printf(" %d", tabuleiro[i][j]);
-			}
-			printf("\n");
-		}
 	}
 
 
